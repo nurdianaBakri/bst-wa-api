@@ -1,0 +1,147 @@
+
+
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- This parts is optional, just for improve the styles -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://getbootstrap.com/docs/3.4/favicon.ico">
+    <link rel="canonical" href="https://getbootstrap.com/docs/3.4/examples/jumbotron/">
+
+    <title>WA-API By Bima Solusi Tech</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://getbootstrap.com/docs/3.4/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="https://getbootstrap.com/docs/3.4/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="https://getbootstrap.com/docs/3.4/examples/jumbotron/jumbotron.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="https://getbootstrap.com/docs/3.4/assets/js/ie-emulation-modes-warning.js"></script>
+
+  
+    <style> 
+    #app {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    #qrcode {
+      display: none; /* Showed when qr code received */
+      width: 100%;
+      margin: 10px 0;
+      border: 1px solid #efefef;
+      border-radius: 4px;
+    }
+    ul.logs {
+      max-height: 150px;
+      padding: 15px 15px 15px 30px;
+      margin-top: 5px;
+      border-radius: 4px;
+      overflow-y: auto;
+      background: #efefef;
+      color: #666;
+      font-size: 14px;
+    }
+    ul.logs li:first-child {
+      color: green;
+    }
+  </style>
+  </head>
+
+  <body>
+
+    <nav class="navbar  navbar-dark bg-primary navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">WA-API BST</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+        </div><!--/.navbar-collapse -->
+      </div>
+    </nav>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Selamat Datang di WA-API Bima Solusi Tech for Nusaraya Medika</h1>
+        <p>Ini adalah layanan pihak ketiga untuk membantu menyebarkan informasi pemesanan, pengimputan dan pembayaran faktur ke seluruh outlet PT Nusaraya Medika.</p>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button">Selengkapnya &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+        <div class="col-md-4">
+          <h2>QR CODE</h2>
+            <div id="app"> 
+            <img src="" alt="QR Code" id="qrcode"> 
+          </div>
+        </div>
+        <div class="col-md-8">
+          <h2>Logs</h2>
+          <ul class="logs"></ul>
+       </div> 
+      </div>
+
+      <hr>
+
+      <footer>
+        <p>&copy; 2022 Bima Solusi Tech</p>
+      </footer>
+    </div> <!-- /container -->
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js" crossorigin="anonymous"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha384-nvAa0+6Qg9clwYCGGPpDQLVpLNn0fRaROjHqs13t4Ggj3Ez50XnGQqc/r8MhnRDZ" crossorigin="anonymous"></script>
+     
+    <script src="https://getbootstrap.com/docs/3.4/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://getbootstrap.com/docs/3.4/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+    <script>
+    $(document).ready(function() {
+      var socket = io();
+
+      socket.on('message', function(msg) {
+        $('.logs').prepend($('<li>').text(msg));
+      });
+
+      socket.on('qr', function(src) {
+        $('#qrcode').attr('src', src);
+        $('#qrcode').show();
+      });
+
+      socket.on('ready', function(data) {
+        $('#qrcode').hide();
+      });
+
+      socket.on('authenticated', function(data) {
+        $('#qrcode').show(); 
+        // $('#qrcode').hide();
+      });
+    });
+  </script>
+  </body>
+
+ 
